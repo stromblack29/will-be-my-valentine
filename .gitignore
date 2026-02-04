@@ -39,3 +39,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+/will-be-my-valentine/.vs
+/will-be-my-valentine/be-my-valentine.zip
