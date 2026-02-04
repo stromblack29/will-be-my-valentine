@@ -112,26 +112,28 @@ export default function Home() {
         </AnimatePresence>
 
         {/* Buttons container */}
-        <div className="relative h-32 flex items-center justify-center gap-4">
+        <div className="flex flex-row gap-4 w-full">
           {/* Yes button */}
-          <Link href="/yes">
+          <Link href="/yes" className="flex-1">
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-yes text-white font-bold py-4 px-8 rounded-full text-lg shadow-lg"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="btn-yes text-white font-bold py-4 px-4 rounded-full text-lg shadow-lg w-full"
             >
-              Yes, Absolutely! 💖
+              Yes 💖
             </motion.button>
           </Link>
 
-          {/* No button - moves on hover/touch */}
+          {/* No button */}
           <motion.button
-            className="bg-gray-400 text-white font-bold py-3 px-6 rounded-full text-base shadow-md absolute"
-            style={{ x: noButtonPos.x, y: noButtonPos.y }}
-            onMouseEnter={moveNoButton}
-            onTouchStart={moveNoButton}
-            animate={{ x: noButtonPos.x, y: noButtonPos.y }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="flex-1 bg-gray-400 text-white font-bold py-4 px-4 rounded-full text-lg shadow-md"
+            onClick={() => {
+              setMessageIndex((prev) => (prev + 1) % sadMessages.length);
+              setShowMessage(true);
+              setTimeout(() => setShowMessage(false), 2000);
+            }}
           >
             No
           </motion.button>
@@ -139,7 +141,7 @@ export default function Home() {
 
         {/* Hint text */}
         <p className="text-rose-400 text-sm mt-4">
-          Try clicking &quot;No&quot;... if you can catch it! 😏
+          Click &quot;No&quot; if you dare... 😏
         </p>
       </motion.div>
     </div>
