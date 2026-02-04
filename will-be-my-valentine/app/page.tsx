@@ -112,7 +112,7 @@ export default function Home() {
         </AnimatePresence>
 
         {/* Buttons container */}
-        <div className="flex flex-row gap-4 w-full">
+        <div className="flex flex-row gap-4 w-full relative">
           {/* Yes button */}
           <Link href="/yes" className="flex-1">
             <motion.button
@@ -124,24 +124,25 @@ export default function Home() {
             </motion.button>
           </Link>
 
-          {/* No button */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex-1 bg-gray-400 text-white font-bold py-4 px-4 rounded-full text-lg shadow-md"
-            onClick={() => {
-              setMessageIndex((prev) => (prev + 1) % sadMessages.length);
-              setShowMessage(true);
-              setTimeout(() => setShowMessage(false), 2000);
-            }}
-          >
-            No
-          </motion.button>
+          {/* No button container - provides flex space and escape boundaries */}
+          <div className="flex-1 relative h-14">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-gray-400 text-white font-bold py-4 px-4 rounded-full text-lg shadow-md absolute left-0 right-0 mx-auto max-w-[120px]"
+              onMouseEnter={moveNoButton}
+              onTouchStart={moveNoButton}
+              animate={{ x: noButtonPos.x, y: noButtonPos.y }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              No
+            </motion.button>
+          </div>
         </div>
 
         {/* Hint text */}
         <p className="text-rose-400 text-sm mt-4">
-          Click &quot;No&quot; if you dare... 😏
+          Try clicking &quot;No&quot;... if you can catch it! 😏
         </p>
       </motion.div>
     </div>

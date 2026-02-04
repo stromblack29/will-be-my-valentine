@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Heart, Sparkles, Utensils, Film, Trees, Gift } from "lucide-react";
+import { Heart, Sparkles, Utensils, Film, Trees, Gift, Music, Pause } from "lucide-react";
 import confetti from "canvas-confetti";
 
 const dateOptions = [
@@ -14,6 +14,38 @@ const dateOptions = [
 
 export default function YesPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Create audio element
+    audioRef.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.5;
+
+    // Try to autoplay (may be blocked by browser)
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
+    }
+
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   useEffect(() => {
     // Initial confetti burst
@@ -92,7 +124,7 @@ export default function YesPage() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="glass-card rounded-3xl p-6 sm:p-10 max-w-lg w-full text-center relative z-10"
       >
-        {/* Sparkles and heart */}
+        {/* Sparkles and heart with music button */}
         <motion.div
           className="flex justify-center items-center gap-3 mb-4"
           animate={{ scale: [1, 1.05, 1] }}
@@ -102,6 +134,20 @@ export default function YesPage() {
           <Heart className="w-16 h-16 text-rose-500" fill="currentColor" />
           <Sparkles className="w-8 h-8 text-rose-400" />
         </motion.div>
+
+        {/* Music toggle button */}
+        <motion.button
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          onClick={toggleMusic}
+          className="mb-4 bg-rose-100 hover:bg-rose-200 text-rose-600 px-4 py-2 rounded-full flex items-center gap-2 mx-auto transition-colors"
+        >
+          {isPlaying ? <Pause className="w-4 h-4" /> : <Music className="w-4 h-4" />}
+          <span className="text-sm font-medium">
+            {isPlaying ? "Pause Music" : "Play Music 🎵"}
+          </span>
+        </motion.button>
 
         {/* Success message */}
         <motion.h1
