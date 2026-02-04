@@ -26,8 +26,8 @@ export default function Home() {
     if (!containerRef.current) return;
 
     const container = containerRef.current.getBoundingClientRect();
-    const buttonWidth = 100;
-    const buttonHeight = 50;
+    const buttonWidth = 120;
+    const buttonHeight = 56;
 
     const maxX = container.width - buttonWidth - 40;
     const maxY = container.height - buttonHeight - 40;
