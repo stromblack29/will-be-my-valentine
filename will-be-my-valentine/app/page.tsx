@@ -39,7 +39,7 @@ export default function Home() {
     setMessageIndex((prev) => (prev + 1) % sadMessages.length);
     setShowMessage(true);
 
-    setTimeout(() => setShowMessage(false), 2000);
+    setTimeout(() => setShowMessage(false), 3000);
   }, []);
 
   return (
