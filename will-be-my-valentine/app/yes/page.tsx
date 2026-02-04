@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Heart, Sparkles, Utensils, Film, Trees, Gift, Music, Pause } from "lucide-react";
 import confetti from "canvas-confetti";
-
 const dateOptions = [
   { id: "dinner", label: "Romantic Dinner", icon: Utensils, desc: "Candlelit evening 🕯️" },
   { id: "movie", label: "Movie Night", icon: Film, desc: "Cozy couch time 🍿" },
@@ -18,10 +17,10 @@ export default function YesPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Create audio element
-    audioRef.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+    // Use local Thai song MP3
+    audioRef.current = new Audio("/COCKTAILFeat.mp3");
     audioRef.current.loop = true;
-    audioRef.current.volume = 0.5;
+    audioRef.current.volume = 0.3;
 
     // Try to autoplay (may be blocked by browser)
     const playPromise = audioRef.current.play();
@@ -108,7 +107,7 @@ export default function YesPage() {
             transition={{
               duration: 7 + i * 1.5,
               repeat: Infinity,
-              delay: i * 1.2,
+              delay: i * 0.5,
               ease: "linear",
             }}
           >
