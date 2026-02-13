@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Heart, Sparkles, Utensils, Film, Trees, Gift, Music, Pause } from "lucide-react";
+import { Heart, Sparkles, Utensils, Film, Trees, Gift, Music, Pause, Share2 } from "lucide-react";
 import confetti from "canvas-confetti";
 const dateOptions = [
   { id: "dinner", label: "Romantic Dinner", icon: Utensils, desc: "Candlelit evening 🕯️" },
@@ -88,6 +88,26 @@ export default function YesPage() {
     });
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: "Will You Be My Valentine? 💕",
+      text: "You made me the happiest person in the world! 🥰",
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // User cancelled or error
+      }
+    } else {
+      // Fallback to clipboard
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard! 📋");
+    }
+  };
+
   return (
     <div className="bg-valentine relative min-h-screen overflow-hidden flex items-center justify-center px-4 py-8">
       {/* Floating hearts background */}
@@ -140,12 +160,24 @@ export default function YesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           onClick={toggleMusic}
-          className="mb-4 bg-rose-100 hover:bg-rose-200 text-rose-600 px-4 py-2 rounded-full flex items-center gap-2 mx-auto transition-colors"
+          className="mb-2 bg-rose-100 hover:bg-rose-200 text-rose-600 px-4 py-2 rounded-full flex items-center gap-2 mx-auto transition-colors"
         >
           {isPlaying ? <Pause className="w-4 h-4" /> : <Music className="w-4 h-4" />}
           <span className="text-sm font-medium">
             {isPlaying ? "Pause Music" : "Play Music 🎵"}
           </span>
+        </motion.button>
+
+        {/* Share button */}
+        <motion.button
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          onClick={handleShare}
+          className="mb-4 bg-rose-200 hover:bg-rose-300 text-rose-700 px-4 py-2 rounded-full flex items-center gap-2 mx-auto transition-colors"
+        >
+          <Share2 className="w-4 h-4" />
+          <span className="text-sm font-medium">Share 💕</span>
         </motion.button>
 
         {/* Success message */}
