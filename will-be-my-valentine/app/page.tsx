@@ -21,6 +21,7 @@ export default function Home() {
   const [messageIndex, setMessageIndex] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const noButtonContainerRef = useRef<HTMLDivElement>(null);
 
   const moveNoButton = useCallback(() => {
     if (!containerRef.current) return;
@@ -28,9 +29,10 @@ export default function Home() {
     const container = containerRef.current.getBoundingClientRect();
     const buttonWidth = 120;
     const buttonHeight = 56;
+    const padding = 8;
 
-    const maxX = container.width - buttonWidth - 40;
-    const maxY = container.height - buttonHeight - 40;
+    const maxX = Math.max(0, container.width - buttonWidth - padding);
+    const maxY = Math.max(0, container.height - buttonHeight - padding);
 
     const newX = Math.random() * maxX - maxX / 2;
     const newY = Math.random() * maxY - maxY / 2;
@@ -125,7 +127,7 @@ export default function Home() {
           </Link>
 
           {/* No button container - provides flex space and escape boundaries */}
-          <div className="flex-1 relative h-14">
+          <div className="flex-1 relative h-14" ref={noButtonContainerRef}>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
